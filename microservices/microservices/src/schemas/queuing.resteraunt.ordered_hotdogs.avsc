@@ -1,0 +1,23 @@
+{
+  "doc": "Schema for an ordered hotdog",
+  "fields": [
+    {
+      "doc": "This string corresponds to the customer's hotdog order id",
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "doc": "The name of the item, e.g. hotdog.",
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "doc": "The name of a topping, e.g. ketchup",
+      "name": "topping",
+      "type": "string"
+    }
+  ],
+  "name": "ordered_hotdogs",
+  "namespace": "queuing.restaurant",
+  "type": "record"
+}
