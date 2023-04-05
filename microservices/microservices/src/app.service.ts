@@ -16,7 +16,7 @@ export class AppService {
     const msg = {
       id: "1",
       name: "Hotdog",
-      topping: "pickles",
+      topping: "onions",
     };
 
     // Getting the schema for the `value` subject for our topic
@@ -24,20 +24,20 @@ export class AppService {
       KafkaTopics.ORDERED_HOTDOGS_SUBJECT
     );
 
-    // In the future we can define a key schema instead of this arbitray key based on id
+    // In the future we can define a key schema instead of this arbitrary key based on id
     const outgoingMessage = {
       key: msg.id,
       value: await registry.encode(id, msg),
     };
 
-    const producer = await this.kafkaClient.connect();
+    await this.kafkaClient.connect();
 
-    await producer.send({
-      topic: KafkaTopics.ORDERED_HOTDOGS,
-      messages: [outgoingMessage],
-    });
+    await this.kafkaClient.emit(
+      KafkaTopics.ORDERED_HOTDOGS,
+      outgoingMessage
+    );
 
-    await producer.disconnect();
+    await this.kafkaClient.close();
 
     return 'Hello World!';
   }

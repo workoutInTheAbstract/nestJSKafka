@@ -21,7 +21,7 @@ export class AppController {
 
   async onModuleInit(): Promise<void> {
 
-    const producer = await this.kafkaClient.connect();
+    await this.kafkaClient.connect();
     const id = await registerSchema(
       join(__dirname, "../src/schemas", "queuing.restaurant.ordered_hotdogs.avsc")
     );
@@ -37,10 +37,10 @@ export class AppController {
       value: await registry.encode(id, msg),
     };
 
-    await producer.send({
-      topic: KafkaTopics.ORDERED_HOTDOGS,
-      messages: [outgoingMessage],
-    });
+     this.kafkaClient.emit(
+      KafkaTopics.ORDERED_HOTDOGS,
+     outgoingMessage
+    );
 
   }
 
